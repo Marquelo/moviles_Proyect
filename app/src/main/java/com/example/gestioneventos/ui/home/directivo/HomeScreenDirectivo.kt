@@ -1,2 +1,2 @@
-package com.example.gestioneventos.ui.home
+package com.example.gestioneventos.ui.home.directivo
 
