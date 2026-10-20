@@ -5,6 +5,9 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.example.gestioneventos.ui.oportunidad.OportunidadViewModel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -18,11 +21,13 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun HomeDirectivoScreen(
     navController: NavController,
+    viewModel: OportunidadViewModel,
     onVerOportunidadesClick: () -> Unit
 ) {
-    val aceptadas = 120
-    val rechazadas = 45
-    val enProceso = 85
+    val resumen by viewModel.resumen.collectAsState()
+    val aceptadas = resumen.confirmadas
+    val rechazadas = resumen.descartadas
+    val enProceso = resumen.enProceso
 
     Scaffold(
         topBar = {
@@ -114,13 +119,4 @@ fun HomeDirectivoScreen(
             }
         }
     }
-}
-
-@Preview(showBackground = true, name = "Preview Home Directivo")
-@Composable
-fun HomeDirectivoScreenPreview() {
-    HomeDirectivoScreen(
-        navController = rememberNavController(),
-        onVerOportunidadesClick = {}
-    )
 }

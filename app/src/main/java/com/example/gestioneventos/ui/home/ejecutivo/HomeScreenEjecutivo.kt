@@ -9,6 +9,9 @@ import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.example.gestioneventos.ui.oportunidad.OportunidadViewModel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -23,13 +26,15 @@ import androidx.navigation.compose.rememberNavController
 fun HomeEjecutivoScreen(
     navController: NavController,
     nombreEjecutivo: String = "Juan Ejecutivo",
+    viewModel: OportunidadViewModel,
     onCrearOportunidadClick: () -> Unit,
     onVerMisOportunidadesClick: () -> Unit,
     onCerrarSesionClick: () -> Unit
 ) {
-    val misOportunidades = 12
-    val pendientesSeguimiento = 4
-    val eventosProximos = 2
+    val resumen by viewModel.resumen.collectAsState()
+    val misOportunidades = resumen.total
+    val pendientesSeguimiento = resumen.enSeguimiento
+    val eventosProximos = resumen.confirmadas
 
     Scaffold(
         topBar = {
@@ -116,15 +121,4 @@ fun HomeEjecutivoScreen(
             }
         }
     }
-}
-
-@Preview(showBackground = true, name = "Home Ejecutivo")
-@Composable
-fun HomeEjecutivoScreenPreview() {
-    HomeEjecutivoScreen(
-        navController = rememberNavController(),
-        onCrearOportunidadClick = {},
-        onVerMisOportunidadesClick = {},
-        onCerrarSesionClick = {}
-    )
 }

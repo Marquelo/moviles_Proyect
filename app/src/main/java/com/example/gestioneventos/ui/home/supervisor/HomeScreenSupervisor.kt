@@ -8,6 +8,9 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.example.gestioneventos.ui.oportunidad.OportunidadViewModel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -17,13 +20,15 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenHomeSupervisor(
+    viewModel: OportunidadViewModel,
     onVerTodasClick: () -> Unit,
     onVerAtrasadasClick: () -> Unit,
     onCerrarSesionClick: () -> Unit
 ) {
-    val totalOportunidades = 25
-    val pendientes = 8
-    val atrasadas = 2
+    val resumen by viewModel.resumen.collectAsState()
+    val totalOportunidades = resumen.total
+    val pendientes = resumen.enProceso
+    val atrasadas = resumen.sinContacto
 
     Scaffold(
         topBar = {
@@ -100,7 +105,7 @@ fun ScreenHomeSupervisor(
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.error
                         )
-                        Text("Atrasadas", style = MaterialTheme.typography.labelMedium)
+                        Text("Sin contacto", style = MaterialTheme.typography.labelMedium)
                     }
                 }
             }
@@ -144,21 +149,9 @@ fun ScreenHomeSupervisor(
                 ) {
                     Icon(imageVector = Icons.Default.Warning, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "Ver Gestiones Atrasadas", style = MaterialTheme.typography.titleMedium)
+                    Text(text = "Ver Oportunidades sin Contacto", style = MaterialTheme.typography.titleMedium)
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true, name = "Home Supervisor")
-@Composable
-fun PreviewHomeSupervisor() {
-    MaterialTheme {
-        ScreenHomeSupervisor(
-            onVerTodasClick = {},
-            onVerAtrasadasClick = {},
-            onCerrarSesionClick = {}
-        )
     }
 }

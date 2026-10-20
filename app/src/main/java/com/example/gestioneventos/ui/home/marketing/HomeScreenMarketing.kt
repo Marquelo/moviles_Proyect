@@ -7,6 +7,9 @@ import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import com.example.gestioneventos.ui.oportunidad.OportunidadViewModel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -16,10 +19,12 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScreenHomeMarketing(
+    viewModel: OportunidadViewModel,
     onVerEventosClick: () -> Unit,
     onCerrarSesionClick: () -> Unit
 ) {
-    val eventosConfirmados = 3
+    val resumen by viewModel.resumen.collectAsState()
+    val eventosConfirmados = resumen.confirmadas
 
     Scaffold(
         topBar = {
@@ -103,16 +108,5 @@ fun ScreenHomeMarketing(
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true, name = "Home Marketing")
-@Composable
-fun PreviewHomeMarketing() {
-    MaterialTheme {
-        ScreenHomeMarketing(
-            onVerEventosClick = {},
-            onCerrarSesionClick = {}
-        )
     }
 }
