@@ -11,7 +11,7 @@ Este proyecto es una aplicación móvil nativa para Android desarrollada en Kotl
 
 La aplicación permite el registro de oportunidades, la asignación de responsables y el seguimiento de estados, utilizando distintos niveles de acceso según el rol del usuario.
 
-🚀 Funcionalidades Implementadas
+ Funcionalidades Implementadas
 1. Gestión de Roles y Navegación
 Login validado: Sistema de autenticación con credenciales ficticias.
 
@@ -57,7 +57,7 @@ Patrón de Arquitectura: MVVM (Model-View-ViewModel) para separar la lógica de 
 Gestión de Estado: mutableStateOf y StateFlow para la reactividad de la UI.
 
  Instrucciones para Ejecutar
-Clona este repositorio: git clone [URL_DEL_REPOSITORIO]
+Clona este repositorio: git clone https://github.com/Marquelo/moviles_Proyect.git
 
 Abre el proyecto en Android Studio (versión recomendada: Hedgehog o superior).
 
@@ -79,3 +79,4 @@ Tablero Trello: [Pega aquí el enlace a tu tablero de Trello]
 
 El desarrollo se dividió en tareas de diseño de UI, lógica de ViewModels, navegación y validaciones.
 
+archivo trello:https://trello.com/b/CXWUzGBM/manejooportunidades
