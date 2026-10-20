@@ -26,12 +26,10 @@ fun AppNav(modifier: Modifier = Modifier) {
         modifier = modifier
     ) {
 
-        // --- 1. LOGIN ---
         composable("login") {
             LoginScreenView(navController = navController)
         }
 
-        // --- 2. HOME EJECUTIVO ---
         composable("home_ejecutivo") {
             HomeEjecutivoScreen(
                 navController = navController,
@@ -44,7 +42,6 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        // --- 3. HOME SUPERVISOR ---
         composable("home_supervisor") {
             ScreenHomeSupervisor(
                 onVerTodasClick = { navController.navigate("lista_oportunidades/SUPERVISOR") },
@@ -55,7 +52,6 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        // --- 4. HOME MARKETING ---
         composable("home_marketing") {
             ScreenHomeMarketing(
                 onVerEventosClick = { navController.navigate("lista_oportunidades/MARKETING") },
@@ -65,7 +61,6 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        // --- 5. HOME DIRECTIVO ---
         composable("home_directivo") {
             HomeDirectivoScreen(
                 navController = navController,
@@ -73,7 +68,6 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        // --- 6. FORMULARIO ---
         composable("crear_oportunidad") {
             ScreenFormularioOportunidad(
                 navController = navController,
@@ -81,14 +75,12 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        // --- 7. LISTA DE OPORTUNIDADES (Recibe el cargo por URL) ---
         composable(
             route = "lista_oportunidades/{cargo}",
             arguments = listOf(navArgument("cargo") { type = NavType.StringType })
         ) { backStackEntry ->
             val cargoRecibido = backStackEntry.arguments?.getString("cargo") ?: "SUPERVISOR"
 
-            // Creamos el usuario con el cargo que llegó
             val usuarioFalso = Usuario(
                 id = "0",
                 nombre = "Juan Ejecutivo",

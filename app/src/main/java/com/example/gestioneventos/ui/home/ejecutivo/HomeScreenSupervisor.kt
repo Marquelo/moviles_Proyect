@@ -27,7 +27,6 @@ fun HomeEjecutivoScreen(
     onVerMisOportunidadesClick: () -> Unit,
     onCerrarSesionClick: () -> Unit
 ) {
-    // Contadores de prueba (luego los traes de tu base de datos)
     val misOportunidades = 12
     val pendientesSeguimiento = 4
     val eventosProximos = 2
@@ -70,7 +69,6 @@ fun HomeEjecutivoScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Tarjeta de Resumen Rápido
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
@@ -79,7 +77,6 @@ fun HomeEjecutivoScreen(
                     modifier = Modifier.fillMaxWidth().padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
-                    // Mis Oportunidades
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text("$misOportunidades", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
                         Text("Mis Oportunidades", style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center)
@@ -99,7 +96,6 @@ fun HomeEjecutivoScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Botón Principal: CREAR (Solo lo tiene el ejecutivo)
             Button(
                 onClick = onCrearOportunidadClick,
                 modifier = Modifier.fillMaxWidth().height(60.dp),
@@ -110,7 +106,6 @@ fun HomeEjecutivoScreen(
                 Text("Crear Nueva Oportunidad", style = MaterialTheme.typography.titleMedium)
             }
 
-            // Botón Secundario: VER MIS OPORTUNIDADES
             OutlinedButton(
                 onClick = onVerMisOportunidadesClick,
                 modifier = Modifier.fillMaxWidth().height(60.dp)
@@ -123,7 +118,6 @@ fun HomeEjecutivoScreen(
     }
 }
 
-// --- PREVIEW ---
 @Preview(showBackground = true, name = "Home Ejecutivo")
 @Composable
 fun HomeEjecutivoScreenPreview() {

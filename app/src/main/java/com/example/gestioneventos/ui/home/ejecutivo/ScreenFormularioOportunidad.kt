@@ -23,7 +23,7 @@ import java.util.Calendar
 @Composable
 fun ScreenFormularioOportunidad(
     navController: NavController,
-    nombreEjecutivo: String = "Ejecutivo Comercial" // El nombre de quien se logueó
+    nombreEjecutivo: String = "Ejecutivo Comercial"
 ) {
     val context = LocalContext.current
 
@@ -36,7 +36,6 @@ fun ScreenFormularioOportunidad(
     var potencial by remember { mutableStateOf("") }
     var observaciones by remember { mutableStateOf("") }
 
-    // Variables para mostrar errores en rojo
     var errorNombre by remember { mutableStateOf("") }
     var errorFecha by remember { mutableStateOf("") }
 
@@ -57,11 +56,10 @@ fun ScreenFormularioOportunidad(
                 .fillMaxSize()
                 .padding(padding)
                 .padding(16.dp)
-                .verticalScroll(rememberScrollState()), // Para que se pueda hacer scroll
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
 
-            // CAMPO: NOMBRE
             OutlinedTextField(
                 value = nombre,
                 onValueChange = { nombre = it; errorNombre = "" },
@@ -73,7 +71,6 @@ fun ScreenFormularioOportunidad(
                 Text(errorNombre, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
             }
 
-            // CAMPO: TIPO DE OPORTUNIDAD
             OutlinedTextField(
                 value = tipo,
                 onValueChange = { tipo = it },
@@ -81,7 +78,6 @@ fun ScreenFormularioOportunidad(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // CAMPO: FECHA (Con calendario nativo)
             OutlinedTextField(
                 value = fecha,
                 onValueChange = {},
@@ -111,7 +107,6 @@ fun ScreenFormularioOportunidad(
                 Text(errorFecha, color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
             }
 
-            // CAMPO: PRIORIDAD
             OutlinedTextField(
                 value = prioridad,
                 onValueChange = { prioridad = it },
@@ -119,7 +114,6 @@ fun ScreenFormularioOportunidad(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // CAMPO: POTENCIAL
             OutlinedTextField(
                 value = potencial,
                 onValueChange = { potencial = it },
@@ -127,7 +121,6 @@ fun ScreenFormularioOportunidad(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // CAMPO: FUENTE
             OutlinedTextField(
                 value = fuente,
                 onValueChange = { fuente = it },
@@ -135,7 +128,6 @@ fun ScreenFormularioOportunidad(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // CAMPO: DESCRIPCIÓN
             OutlinedTextField(
                 value = descripcion,
                 onValueChange = { descripcion = it },
@@ -143,7 +135,6 @@ fun ScreenFormularioOportunidad(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // CAMPO: OBSERVACIONES
             OutlinedTextField(
                 value = observaciones,
                 onValueChange = { observaciones = it },
@@ -153,15 +144,12 @@ fun ScreenFormularioOportunidad(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // BOTÓN GUARDAR
             Button(
                 onClick = {
-                    // Validamos que lo obligatorio esté lleno
                     if (nombre.isEmpty() || fecha.isEmpty()) {
                         if (nombre.isEmpty()) errorNombre = "Este campo es obligatorio"
                         if (fecha.isEmpty()) errorFecha = "Este campo es obligatorio"
                     } else {
-                        // 2. Creamos el objeto usando la data class exacta que me pasaste
                         val nuevaOportunidad = Oportunidad(
                             id = System.currentTimeMillis().toString(),
                             nombre = nombre,
@@ -169,18 +157,16 @@ fun ScreenFormularioOportunidad(
                             descripcion = descripcion,
                             fuenteInformacion = fuente,
                             fechaDeteccion = fecha,
-                            responsableId = nombreEjecutivo, // Se llena automáticamente
+                            responsableId = nombreEjecutivo,
                             nivelPrioridad = prioridad,
                             potencialComercial = potencial,
-                            estadoGestion = "Evento identificado", // Por defecto
+                            estadoGestion = "Evento identificado",
                             fechaUltimaActualizacion = fecha,
                             observaciones = observaciones
                         )
 
-                        // Aquí luego puedes guardar esto en una lista o base de datos
                         println("Se creó la oportunidad: $nuevaOportunidad")
 
-                        // Volvemos a la pantalla anterior
                         navController.popBackStack()
                     }
                 },

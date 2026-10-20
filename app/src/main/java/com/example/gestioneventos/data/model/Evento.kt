@@ -2,8 +2,8 @@ package com.example.gestioneventos.model
 
 data class Evento(
     val id: String = "",
-    val oportunidadId: String = "", // Llave foránea a la oportunidad
-    val organizacionId: String = "", // Llave foránea a la organización
+    val oportunidadId: String = "",
+    val organizacionId: String = "",
     val nombre: String = "",
     val tipo: String = "",
     val descripcion: String = "",

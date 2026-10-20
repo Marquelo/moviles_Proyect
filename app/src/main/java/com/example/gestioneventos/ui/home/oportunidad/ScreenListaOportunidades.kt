@@ -25,7 +25,6 @@ fun ScreenListaOportunidades(
     navController: NavController,
     usuario: Usuario
 ) {
-    // Usamos mutableStateListOf para que la UI se actualice si cambia un dato
     val todasLasOportunidades = remember {
         mutableStateListOf(
             Oportunidad(
@@ -144,7 +143,6 @@ fun TarjetaOportunidad(
                     )
                 }
 
-                // MENÚ DE OPCIONES DEL SUPERVISOR
                 if (cargoUsuario == "SUPERVISOR") {
                     Box {
                         IconButton(onClick = { expandedMenu = true }) {
@@ -267,7 +265,6 @@ fun TarjetaOportunidad(
     }
 }
 
-// --- PREVIEWS ---
 @Preview(showBackground = true, name = "Lista Supervisor Interactiva")
 @Composable
 fun PreviewListaSupervisorInteractiva() {

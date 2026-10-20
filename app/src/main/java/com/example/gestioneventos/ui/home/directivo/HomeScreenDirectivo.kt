@@ -18,7 +18,7 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun HomeDirectivoScreen(
     navController: NavController,
-    onVerOportunidadesClick: () -> Unit // Recibe la acción
+    onVerOportunidadesClick: () -> Unit
 ) {
     val aceptadas = 120
     val rechazadas = 45
@@ -50,7 +50,6 @@ fun HomeDirectivoScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                // Tarjeta Aceptadas
                 Card(
                     modifier = Modifier.weight(1f),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
@@ -65,7 +64,6 @@ fun HomeDirectivoScreen(
                     }
                 }
 
-                // Tarjeta En Proceso
                 Card(
                     modifier = Modifier.weight(1f),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
@@ -80,7 +78,6 @@ fun HomeDirectivoScreen(
                     }
                 }
 
-                // Tarjeta Rechazadas
                 Card(
                     modifier = Modifier.weight(1f),
                     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer)
@@ -105,7 +102,6 @@ fun HomeDirectivoScreen(
                 color = MaterialTheme.colorScheme.primary
             )
 
-            // BOTÓN CONECTADO
             Button(
                 onClick = onVerOportunidadesClick,
                 modifier = Modifier.fillMaxWidth().height(56.dp),
@@ -125,6 +121,6 @@ fun HomeDirectivoScreen(
 fun HomeDirectivoScreenPreview() {
     HomeDirectivoScreen(
         navController = rememberNavController(),
-        onVerOportunidadesClick = {} // Para que el preview no falle
+        onVerOportunidadesClick = {}
     )
 }

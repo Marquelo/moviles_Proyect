@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ScreenHomeSupervisor(
     onVerTodasClick: () -> Unit,
-    onVerAtrasadasClick: () -> Unit, // <-- AQUÍ ESTÁ EL PARÁMETRO
+    onVerAtrasadasClick: () -> Unit,
     onCerrarSesionClick: () -> Unit
 ) {
     val totalOportunidades = 25

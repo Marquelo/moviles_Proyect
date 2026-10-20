@@ -106,7 +106,6 @@ fun LoginScreenView(
             Button(
                 onClick = {
                     vm.ok { user ->
-                        // Evaluamos el correo exacto de tus Credentials
                         val rutaDestino = when (user.lowercase().trim()) {
                             "ejecutivo@agencia.cl" -> "home_ejecutivo"
                             "supervisor@agencia.cl" -> "home_supervisor"

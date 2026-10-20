@@ -3,14 +3,14 @@ package com.example.gestioneventos.model
 data class Oportunidad(
     val id: String = "",
     val nombre: String = "",
-    val tipoOportunidad: String = "", // Evento corporativo, Feria, etc.
+    val tipoOportunidad: String = "",
     val descripcion: String = "",
     val fuenteInformacion: String = "",
     val fechaDeteccion: String = "",
-    val responsableId: String = "", // ID del Usuario asignado
-    val nivelPrioridad: String = "", // Alta, Media, Baja
+    val responsableId: String = "",
+    val nivelPrioridad: String = "",
     val potencialComercial: String = "",
-    val estadoGestion: String = "Evento identificado", // Los estados de la página 10
+    val estadoGestion: String = "Evento identificado",
     val fechaUltimaActualizacion: String = "",
     val observaciones: String = ""
 )

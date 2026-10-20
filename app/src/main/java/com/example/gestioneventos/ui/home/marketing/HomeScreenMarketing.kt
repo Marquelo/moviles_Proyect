@@ -19,7 +19,6 @@ fun ScreenHomeMarketing(
     onVerEventosClick: () -> Unit,
     onCerrarSesionClick: () -> Unit
 ) {
-    // Simulamos el contador de eventos confirmados (luego esto vendría de la base de datos)
     val eventosConfirmados = 3
 
     Scaffold(
@@ -45,7 +44,6 @@ fun ScreenHomeMarketing(
                 .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            // Saludo
             Text(
                 text = "Hola, equipo de Marketing",
                 style = MaterialTheme.typography.headlineMedium,
@@ -57,7 +55,6 @@ fun ScreenHomeMarketing(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            // Tarjeta de Resumen (Contador)
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -85,9 +82,8 @@ fun ScreenHomeMarketing(
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1f)) // Empuja el botón hacia abajo
+            Spacer(modifier = Modifier.weight(1f))
 
-            // Botón para ver la lista de eventos confirmados
             Button(
                 onClick = onVerEventosClick,
                 modifier = Modifier
@@ -110,7 +106,6 @@ fun ScreenHomeMarketing(
     }
 }
 
-// --- PREVIEW ---
 @Preview(showBackground = true, name = "Home Marketing")
 @Composable
 fun PreviewHomeMarketing() {
