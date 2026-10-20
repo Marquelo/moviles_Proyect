@@ -8,5 +8,6 @@ data class Usuario(
     val zonaSucursal: String = "",
     val estadoCuenta: String = "Activa",
     val fechaCreacion: String = "",
-    val fechaActualizacion: String = ""
+    val fechaActualizacion: String = "",
+    val cargo: String=""
 )

@@ -70,7 +70,6 @@ fun LoginScreenView(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
 
-            // Campo Usuario
             OutlinedTextField(
                 value = state.user,
                 onValueChange = vm::onUserChange,
@@ -79,7 +78,6 @@ fun LoginScreenView(
                 modifier = Modifier.fillMaxWidth(0.95f)
             )
 
-            // Campo Contraseña
             OutlinedTextField(
                 value = state.passwd,
                 onValueChange = vm::onPasswd,
@@ -95,7 +93,6 @@ fun LoginScreenView(
                 modifier = Modifier.fillMaxWidth(0.95f)
             )
 
-            // Mensaje de error
             if (state.error != null) {
                 Text(
                     text = state.error ?: "",
@@ -106,12 +103,22 @@ fun LoginScreenView(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Botón Iniciar sesión
             Button(
                 onClick = {
                     vm.ok { user ->
-                        // 🔹 TODO: aquí irá la navegación cuando tengas el menú
-                        // navController.navigate("DrawerMenu/$user") { ... }
+                        // Evaluamos el correo exacto de tus Credentials
+                        val rutaDestino = when (user.lowercase().trim()) {
+                            "ejecutivo@agencia.cl" -> "home_ejecutivo"
+                            "supervisor@agencia.cl" -> "home_supervisor"
+                            "marketing@agencia.cl" -> "home_marketing"
+                            "admin" -> "home_directivo" // Asumimos que Admin es el Directivo
+                            else -> "home_ejecutivo"
+                        }
+
+                        navController.navigate(rutaDestino) {
+                            popUpTo("login") { inclusive = true }
+                            launchSingleTop = true
+                        }
                     }
                 },
                 enabled = !state.isLoadin,
