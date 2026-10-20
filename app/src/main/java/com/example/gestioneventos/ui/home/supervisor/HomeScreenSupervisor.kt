@@ -5,6 +5,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,9 +18,9 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ScreenHomeSupervisor(
     onVerTodasClick: () -> Unit,
+    onVerAtrasadasClick: () -> Unit, // <-- AQUÍ ESTÁ EL PARÁMETRO
     onCerrarSesionClick: () -> Unit
 ) {
-    // Simulamos los datos globales del equipo (luego vendrían de la base de datos)
     val totalOportunidades = 25
     val pendientes = 8
     val atrasadas = 2
@@ -47,7 +48,6 @@ fun ScreenHomeSupervisor(
                 .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            // Saludo
             Text(
                 text = "Hola, Supervisor",
                 style = MaterialTheme.typography.headlineMedium,
@@ -59,7 +59,6 @@ fun ScreenHomeSupervisor(
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
-            // Tarjeta de Resumen Global
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -74,7 +73,6 @@ fun ScreenHomeSupervisor(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Contador 1: Totales
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
                             text = totalOportunidades.toString(),
@@ -85,7 +83,6 @@ fun ScreenHomeSupervisor(
                         Text("Totales", style = MaterialTheme.typography.labelMedium)
                     }
 
-                    // Contador 2: Pendientes
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
                             text = pendientes.toString(),
@@ -96,7 +93,6 @@ fun ScreenHomeSupervisor(
                         Text("Pendientes", style = MaterialTheme.typography.labelMedium)
                     }
 
-                    // Contador 3: Atrasadas
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
                             text = atrasadas.toString(),
@@ -109,9 +105,8 @@ fun ScreenHomeSupervisor(
                 }
             }
 
-            Spacer(modifier = Modifier.weight(1f)) // Empuja el botón hacia abajo
+            Spacer(modifier = Modifier.weight(1f))
 
-            // Botón para ver todas las oportunidades (NO HAY BOTÓN DE CREAR)
             Button(
                 onClick = onVerTodasClick,
                 modifier = Modifier
@@ -130,17 +125,39 @@ fun ScreenHomeSupervisor(
                     Text(text = "Ver Todas las Oportunidades", style = MaterialTheme.typography.titleMedium)
                 }
             }
+
+            Button(
+                onClick = onVerAtrasadasClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(64.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.errorContainer,
+                    contentColor = MaterialTheme.colorScheme.onErrorContainer
+                )
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Icon(imageVector = Icons.Default.Warning, contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(text = "Ver Gestiones Atrasadas", style = MaterialTheme.typography.titleMedium)
+                }
+            }
         }
     }
 }
 
-// --- PREVIEW ---
 @Preview(showBackground = true, name = "Home Supervisor")
 @Composable
 fun PreviewHomeSupervisor() {
     MaterialTheme {
         ScreenHomeSupervisor(
             onVerTodasClick = {},
+            onVerAtrasadasClick = {},
             onCerrarSesionClick = {}
         )
     }

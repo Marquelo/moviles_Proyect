@@ -2,27 +2,23 @@ package com.example.gestioneventos.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.gestioneventos.data.model.Usuario
-import com.example.gestioneventos.ui.login.LoginScreenView
-import com.example.gestioneventos.ui.home.ejecutivo.HomeEjecutivoScreen
-import com.example.gestioneventos.ui.home.supervisor.ScreenHomeSupervisor
-import com.example.gestioneventos.ui.home.marketing.ScreenHomeMarketing
 import com.example.gestioneventos.ui.home.directivo.HomeDirectivoScreen
+import com.example.gestioneventos.ui.home.ejecutivo.HomeEjecutivoScreen
+import com.example.gestioneventos.ui.home.marketing.ScreenHomeMarketing
+import com.example.gestioneventos.ui.home.supervisor.ScreenHomeSupervisor
+import com.example.gestioneventos.ui.login.LoginScreenView
 import com.example.gestioneventos.ui.oportunidad.ScreenFormularioOportunidad
 import com.example.gestioneventos.ui.oportunidad.ScreenListaOportunidades
 
 @Composable
 fun AppNav(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
-
-    // --- USUARIOS DE PRUEBA PARA LA LISTA ---
-    val userEjecutivo = Usuario(id = "1", nombre = "Juan Ejecutivo", cargo = "EJECUTIVO")
-    val userSupervisor = Usuario(id = "2", nombre = "Ana Supervisora", cargo = "SUPERVISOR")
-    val userMarketing = Usuario(id = "3", nombre = "Carlos Marketing", cargo = "MARKETING")
-    val userDirectivo = Usuario(id = "4", nombre = "Director General", cargo = "DIRECTIVO")
 
     NavHost(
         navController = navController,
@@ -41,7 +37,7 @@ fun AppNav(modifier: Modifier = Modifier) {
                 navController = navController,
                 nombreEjecutivo = "Juan Ejecutivo",
                 onCrearOportunidadClick = { navController.navigate("crear_oportunidad") },
-                onVerMisOportunidadesClick = { navController.navigate("lista_oportunidades") },
+                onVerMisOportunidadesClick = { navController.navigate("lista_oportunidades/EJECUTIVO") },
                 onCerrarSesionClick = {
                     navController.navigate("login") { popUpTo("home_ejecutivo") { inclusive = true } }
                 }
@@ -51,7 +47,8 @@ fun AppNav(modifier: Modifier = Modifier) {
         // --- 3. HOME SUPERVISOR ---
         composable("home_supervisor") {
             ScreenHomeSupervisor(
-                onVerTodasClick = { navController.navigate("lista_oportunidades") },
+                onVerTodasClick = { navController.navigate("lista_oportunidades/SUPERVISOR") },
+                onVerAtrasadasClick = { navController.navigate("lista_oportunidades/SUPERVISOR") },
                 onCerrarSesionClick = {
                     navController.navigate("login") { popUpTo("home_supervisor") { inclusive = true } }
                 }
@@ -61,7 +58,7 @@ fun AppNav(modifier: Modifier = Modifier) {
         // --- 4. HOME MARKETING ---
         composable("home_marketing") {
             ScreenHomeMarketing(
-                onVerEventosClick = { navController.navigate("lista_oportunidades") },
+                onVerEventosClick = { navController.navigate("lista_oportunidades/MARKETING") },
                 onCerrarSesionClick = {
                     navController.navigate("login") { popUpTo("home_marketing") { inclusive = true } }
                 }
@@ -72,7 +69,7 @@ fun AppNav(modifier: Modifier = Modifier) {
         composable("home_directivo") {
             HomeDirectivoScreen(
                 navController = navController,
-                onVerOportunidadesClick = { navController.navigate("lista_oportunidades") }
+                onVerOportunidadesClick = { navController.navigate("lista_oportunidades/DIRECTIVO") }
             )
         }
 
@@ -84,13 +81,23 @@ fun AppNav(modifier: Modifier = Modifier) {
             )
         }
 
-        // --- 7. LISTA DE OPORTUNIDADES ---
-        composable("lista_oportunidades") {
-            // Como la lista necesita un usuario para saber qué mostrar,
-            // le pasamos uno de los de prueba (por ahora verá todo como Supervisor).
+        // --- 7. LISTA DE OPORTUNIDADES (Recibe el cargo por URL) ---
+        composable(
+            route = "lista_oportunidades/{cargo}",
+            arguments = listOf(navArgument("cargo") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val cargoRecibido = backStackEntry.arguments?.getString("cargo") ?: "SUPERVISOR"
+
+            // Creamos el usuario con el cargo que llegó
+            val usuarioFalso = Usuario(
+                id = "0",
+                nombre = "Juan Ejecutivo",
+                cargo = cargoRecibido
+            )
+
             ScreenListaOportunidades(
                 navController = navController,
-                usuario = userSupervisor
+                usuario = usuarioFalso
             )
         }
     }
