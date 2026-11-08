@@ -37,6 +37,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.gestioneventos.data.local.OportunidadEntity
 import com.example.gestioneventos.data.model.Usuario
+import androidx.compose.material3.AlertDialog
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -54,7 +58,10 @@ fun ScreenListaOportunidades(
     }
     val puedeEditar = usuario.cargo == "EJECUTIVO" || usuario.cargo == "SUPERVISOR"
     val puedeDescartar = usuario.cargo == "SUPERVISOR"
+    val puedeEliminar = usuario.cargo == "EJECUTIVO"
 
+    // Oportunidad pendiente de confirmar su eliminación (null = sin diálogo)
+    var oportunidadAEliminar by remember { mutableStateOf<OportunidadEntity?>(null) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -104,16 +111,35 @@ fun ScreenListaOportunidades(
                     TarjetaOportunidad(
                         oportunidad = oportunidad,
                         puedeDescartar = puedeDescartar,
+                        puedeEliminar = puedeEliminar,
                         onClick = if (puedeEditar) {
                             { navController.navigate("oportunidad_form/${oportunidad.id}") }
                         } else null,
                         onDescartar = {
                             viewModel.cambiarEstado(oportunidad, OportunidadOpciones.ESTADO_DESCARTADA)
-                        }
+                        },
+                        onEliminar = { oportunidadAEliminar = oportunidad }
                     )
                 }
+
             }
         }
+    }
+    oportunidadAEliminar?.let { aEliminar ->
+        AlertDialog(
+            onDismissRequest = { oportunidadAEliminar = null },
+            title = { Text("Eliminar oportunidad") },
+            text = { Text("¿Seguro que quieres eliminar \"${aEliminar.nombre}\"? Esta acción no se puede deshacer.") },
+            confirmButton = {
+                TextButton(onClick = {
+                    viewModel.eliminar(aEliminar)
+                    oportunidadAEliminar = null
+                }) { Text("Eliminar", color = MaterialTheme.colorScheme.error) }
+            },
+            dismissButton = {
+                TextButton(onClick = { oportunidadAEliminar = null }) { Text("Cancelar") }
+            }
+        )
     }
 }
 
@@ -121,8 +147,10 @@ fun ScreenListaOportunidades(
 private fun TarjetaOportunidad(
     oportunidad: OportunidadEntity,
     puedeDescartar: Boolean,
+    puedeEliminar: Boolean,
     onClick: (() -> Unit)?,
-    onDescartar: () -> Unit
+    onDescartar: () -> Unit,
+    onEliminar: () -> Unit
 ) {
     val descartada = oportunidad.estado == OportunidadOpciones.ESTADO_DESCARTADA
 
@@ -177,6 +205,12 @@ private fun TarjetaOportunidad(
             if (puedeDescartar && !descartada) {
                 TextButton(onClick = onDescartar) { Text("Descartar") }
             }
+            if (puedeEliminar) {
+                TextButton(onClick = onEliminar) {
+                    Text("Eliminar", color = MaterialTheme.colorScheme.error)
+                }
+        }
+
         }
     }
 }
