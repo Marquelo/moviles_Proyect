@@ -13,4 +13,8 @@ class OportunidadRepository(private val dao: OportunidadDao) {
     suspend fun guardar(oportunidad: OportunidadEntity) {
         dao.guardar(oportunidad)
     }
+
+    suspend fun eliminar(oportunidad: OportunidadEntity) {
+        dao.eliminar(oportunidad)
+    }
 }
