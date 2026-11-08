@@ -145,7 +145,11 @@ class OportunidadViewModel(
     fun cambiarEstado(oportunidad: OportunidadEntity, nuevoEstado: String) {
         viewModelScope.launch { repository.guardar(oportunidad.copy(estado = nuevoEstado)) }
     }
+    // ---------- Eliminar (ejecutivo) ----------
 
+    fun eliminar(oportunidad: OportunidadEntity) {
+        viewModelScope.launch { repository.eliminar(oportunidad) }
+    }
     // ---------- Validaciones (toda la lógica vive aquí, no en la UI) ----------
 
     private fun validar(s: OportunidadUiState): OportunidadUiState {
