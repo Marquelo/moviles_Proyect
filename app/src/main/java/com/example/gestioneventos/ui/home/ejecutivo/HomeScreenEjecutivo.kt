@@ -5,6 +5,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.CloudDownload
 import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.*
@@ -16,10 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -29,6 +28,7 @@ fun HomeEjecutivoScreen(
     viewModel: OportunidadViewModel,
     onCrearOportunidadClick: () -> Unit,
     onVerMisOportunidadesClick: () -> Unit,
+    onVerCatalogoExternoClick: () -> Unit = {},
     onCerrarSesionClick: () -> Unit
 ) {
     val resumen by viewModel.resumen.collectAsState()
@@ -60,7 +60,6 @@ fun HomeEjecutivoScreen(
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Saludo
             Text(
                 text = "¡Hola, $nombreEjecutivo!",
                 style = MaterialTheme.typography.headlineMedium,
@@ -86,12 +85,10 @@ fun HomeEjecutivoScreen(
                         Text("$misOportunidades", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
                         Text("Mis Oportunidades", style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center)
                     }
-                    // Pendientes
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text("$pendientesSeguimiento", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.error)
                         Text("Por Seguir", style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center)
                     }
-                    // Próximos
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text("$eventosProximos", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
                         Text("Próximos", style = MaterialTheme.typography.bodySmall, textAlign = TextAlign.Center)
@@ -118,6 +115,15 @@ fun HomeEjecutivoScreen(
                 Icon(Icons.Default.List, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Ver Mis Oportunidades", style = MaterialTheme.typography.titleMedium)
+            }
+
+            FilledTonalButton(
+                onClick = onVerCatalogoExternoClick,
+                modifier = Modifier.fillMaxWidth().height(60.dp)
+            ) {
+                Icon(Icons.Default.CloudDownload, contentDescription = null)
+                Spacer(modifier = Modifier.width(8.dp))
+                Text("Catálogo de Eventos Externos (API)", style = MaterialTheme.typography.titleMedium)
             }
         }
     }

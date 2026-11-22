@@ -3,26 +3,27 @@ package com.example.gestioneventos.ui.home.directivo
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import com.example.gestioneventos.ui.oportunidad.OportunidadViewModel
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.example.gestioneventos.ui.oportunidad.OportunidadViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeDirectivoScreen(
     navController: NavController,
     viewModel: OportunidadViewModel,
-    onVerOportunidadesClick: () -> Unit
+    onVerOportunidadesClick: () -> Unit,
+    onCerrarSesionClick: () -> Unit = {}
 ) {
     val resumen by viewModel.resumen.collectAsState()
     val aceptadas = resumen.confirmadas
@@ -32,7 +33,12 @@ fun HomeDirectivoScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Panel Directivo") }
+                title = { Text("Panel Directivo") },
+                actions = {
+                    IconButton(onClick = onCerrarSesionClick) {
+                        Icon(Icons.Default.ExitToApp, contentDescription = "Cerrar Sesión")
+                    }
+                }
             )
         }
     ) { innerPadding ->

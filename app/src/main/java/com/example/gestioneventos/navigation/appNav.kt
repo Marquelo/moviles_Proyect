@@ -19,6 +19,7 @@ import com.example.gestioneventos.ui.home.marketing.ScreenHomeMarketing
 import com.example.gestioneventos.ui.home.supervisor.ScreenHomeSupervisor
 import com.example.gestioneventos.ui.login.LoginScreenView
 import com.example.gestioneventos.ui.oportunidad.OportunidadViewModel
+import com.example.gestioneventos.ui.oportunidad.ScreenCatalogoExterno
 import com.example.gestioneventos.ui.oportunidad.ScreenFormularioOportunidad
 import com.example.gestioneventos.ui.oportunidad.ScreenListaOportunidades
 
@@ -26,7 +27,6 @@ import com.example.gestioneventos.ui.oportunidad.ScreenListaOportunidades
 fun AppNav(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
 
-    // Room -> DAO -> Repository -> ViewModel (un solo ViewModel compartido por lista y formulario)
     val context = LocalContext.current.applicationContext
     val repository = remember {
         OportunidadRepository(AppDatabase.getDatabase(context).oportunidadDao())
@@ -51,7 +51,12 @@ fun AppNav(modifier: Modifier = Modifier) {
                 nombreEjecutivo = "Juan Ejecutivo",
                 viewModel = oportunidadViewModel,
                 onCrearOportunidadClick = { navController.navigate("oportunidad_form/0") },
-                onVerMisOportunidadesClick = { navController.navigate("lista_oportunidades/EJECUTIVO") },
+                onVerMisOportunidadesClick = {
+                    oportunidadViewModel.onBusquedaChange("")
+                    oportunidadViewModel.onFiltroEstadoChange("TODAS")
+                    navController.navigate("lista_oportunidades/EJECUTIVO")
+                },
+                onVerCatalogoExternoClick = { navController.navigate("catalogo_externo") },
                 onCerrarSesionClick = {
                     navController.navigate("login") { popUpTo("home_ejecutivo") { inclusive = true } }
                 }
@@ -61,8 +66,16 @@ fun AppNav(modifier: Modifier = Modifier) {
         composable("home_supervisor") {
             ScreenHomeSupervisor(
                 viewModel = oportunidadViewModel,
-                onVerTodasClick = { navController.navigate("lista_oportunidades/SUPERVISOR") },
-                onVerAtrasadasClick = { navController.navigate("lista_oportunidades/SUPERVISOR") },
+                onVerTodasClick = {
+                    oportunidadViewModel.onBusquedaChange("")
+                    oportunidadViewModel.onFiltroEstadoChange("TODAS")
+                    navController.navigate("lista_oportunidades/SUPERVISOR")
+                },
+                onVerAtrasadasClick = {
+                    oportunidadViewModel.onBusquedaChange("")
+                    oportunidadViewModel.onFiltroEstadoChange("SIN_CONTACTO")
+                    navController.navigate("lista_oportunidades/SUPERVISOR")
+                },
                 onCerrarSesionClick = {
                     navController.navigate("login") { popUpTo("home_supervisor") { inclusive = true } }
                 }
@@ -72,7 +85,11 @@ fun AppNav(modifier: Modifier = Modifier) {
         composable("home_marketing") {
             ScreenHomeMarketing(
                 viewModel = oportunidadViewModel,
-                onVerEventosClick = { navController.navigate("lista_oportunidades/MARKETING") },
+                onVerEventosClick = {
+                    oportunidadViewModel.onBusquedaChange("")
+                    oportunidadViewModel.onFiltroEstadoChange("TODAS")
+                    navController.navigate("lista_oportunidades/MARKETING")
+                },
                 onCerrarSesionClick = {
                     navController.navigate("login") { popUpTo("home_marketing") { inclusive = true } }
                 }
@@ -83,11 +100,24 @@ fun AppNav(modifier: Modifier = Modifier) {
             HomeDirectivoScreen(
                 navController = navController,
                 viewModel = oportunidadViewModel,
-                onVerOportunidadesClick = { navController.navigate("lista_oportunidades/DIRECTIVO") }
+                onVerOportunidadesClick = {
+                    oportunidadViewModel.onBusquedaChange("")
+                    oportunidadViewModel.onFiltroEstadoChange("TODAS")
+                    navController.navigate("lista_oportunidades/DIRECTIVO")
+                },
+                onCerrarSesionClick = {
+                    navController.navigate("login") { popUpTo("home_directivo") { inclusive = true } }
+                }
             )
         }
 
-        // id = 0 -> crear; id > 0 -> editar
+        composable("catalogo_externo") {
+            ScreenCatalogoExterno(
+                navController = navController,
+                viewModel = oportunidadViewModel
+            )
+        }
+
         composable(
             route = "oportunidad_form/{id}",
             arguments = listOf(navArgument("id") { type = NavType.IntType })
@@ -108,7 +138,7 @@ fun AppNav(modifier: Modifier = Modifier) {
 
             val usuarioFalso = Usuario(
                 id = "0",
-                nombre = "Juan Ejecutivo",
+                nombre = "Usuario $cargoRecibido",
                 cargo = cargoRecibido
             )
 
